@@ -33,13 +33,13 @@ class UserVerification(BaseModel):
      new_password:str=Field(min_length=5)
 
 @router.get("/",status_code=status.HTTP_200_OK)
-def get_user(user:user_dependency,db:db_dependency):
+async def get_user(user:user_dependency,db:db_dependency):
     if user is None:
         raise HTTPException(status_code=401,detail='Authentication failed')
     return db.query(Users).filter(Users.id==user.get('user_id')).first()
 
 @router.put('/password',status_code=status.HTTP_204_NO_CONTENT)
-def change_password(user:user_dependency,db:db_dependency,user_verification:UserVerification):
+async def change_password(user:user_dependency,db:db_dependency,user_verification:UserVerification):
 
     if user is None:
         raise HTTPException(status_code=401,details='Authentication failed')
@@ -52,7 +52,7 @@ def change_password(user:user_dependency,db:db_dependency,user_verification:User
     db.commit()
 
 @router.put("/phone_number/{phone_number}",status_code=status.HTTP_204_NO_CONTENT)
-def  change_phone_number(user:user_dependency,db:db_dependency,phone_number:str):
+async def change_phone_number(user:user_dependency,db:db_dependency,phone_number:str):
     if user is None:
         raise HTTPException(status_code=401,details='Authentication failed')
     user_model=db.query(Users).filter(Users.id==user.get('user_id')).first()

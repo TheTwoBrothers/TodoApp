@@ -1,5 +1,5 @@
-data.json
-main.py
-book.py
+
 myenv/
 __pycache__/
+TodoApp/__pycache__/
+TodoApp/test/
